@@ -18,7 +18,11 @@
             <entry file="file://$PROJECT_DIR$/wifi.py">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="1496">
+=======
+                <state relative-caret-position="1936">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
                 <state relative-caret-position="1936">
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
@@ -39,7 +43,11 @@
             <entry file="file://$PROJECT_DIR$/WavToImage.py">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="732">
+=======
+                <state relative-caret-position="402">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
                 <state relative-caret-position="402">
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
@@ -82,7 +90,11 @@
             <entry file="file://$PROJECT_DIR$/PictureTraining.py">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="442">
+=======
+                <state relative-caret-position="572">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
                 <state relative-caret-position="572">
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
@@ -95,7 +107,11 @@
             <entry file="file://$PROJECT_DIR$/lengthCheck.py">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="459">
+=======
+                <state relative-caret-position="594">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
                 <state relative-caret-position="594">
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
@@ -111,7 +127,11 @@
             <entry file="file://$PROJECT_DIR$/---Horyu---WaveCut.py">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="170">
+=======
+                <state relative-caret-position="330">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
                 <state relative-caret-position="330">
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
@@ -126,13 +146,19 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/WaveCut.py">
 <<<<<<< HEAD
+<<<<<<< HEAD
               <provider selected="true" editor-type-id="text-editor" />
 =======
+=======
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="154">
                   <caret line="7" column="52" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
                 </state>
               </provider>
+<<<<<<< HEAD
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
+=======
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
             </entry>
           </file>
@@ -167,15 +193,21 @@
     </option>
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="ProjectFrameBounds">
     <option name="width" value="1940" />
     <option name="height" value="1100" />
 =======
+=======
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="85" />
     <option name="y" value="55" />
     <option name="width" value="1764" />
     <option name="height" value="924" />
+<<<<<<< HEAD
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
+=======
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
   </component>
   <component name="ProjectView">
@@ -350,9 +382,15 @@
   </component>
   <component name="ToolWindowManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <frame x="0" y="0" width="1940" height="1100" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13617244" />
+=======
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13615334" />
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
@@ -388,7 +426,10 @@
     <entry file="file://$PROJECT_DIR$/class_train.tsv" />
     <entry file="file://$PROJECT_DIR$/WavToPicture.py" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
     <entry file="file://$PROJECT_DIR$/wifi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1936">
@@ -399,6 +440,9 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
+=======
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
     <entry file="file://$PROJECT_DIR$/Predict.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -415,12 +459,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WavToImage.py">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="732">
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
           <caret line="57" column="42" selection-start-line="57" selection-start-column="42" selection-end-line="57" selection-end-column="42" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/wifi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
@@ -431,9 +481,11 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
     <entry file="file://$PROJECT_DIR$/PictureToNumpy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="44">
           <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
 =======
       <provider selected="true" editor-type-id="text-editor">
@@ -459,6 +511,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/lengthCheck.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -481,6 +534,11 @@
     <entry file="file://$PROJECT_DIR$/lengthCheck.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
+=======
+    <entry file="file://$PROJECT_DIR$/lengthCheck.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
           <caret line="35" column="83" selection-start-line="35" selection-start-column="83" selection-end-line="35" selection-end-column="83" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -488,9 +546,15 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/---Horyu---WaveCut.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
+=======
+    <entry file="file://$PROJECT_DIR$/---Horyu---WaveCut.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
 =======
     <entry file="file://$PROJECT_DIR$/---Horyu---WaveCut.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -505,13 +569,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WaveCut.py">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor" />
 =======
+=======
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="7" column="52" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
         </state>
       </provider>
+<<<<<<< HEAD
+>>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
+=======
 >>>>>>> a601858ff023356f71c4f28a726f7ebd48782822
     </entry>
   </component>
