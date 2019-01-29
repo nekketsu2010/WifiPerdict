@@ -30,10 +30,11 @@ if __name__ == '__main__':
     meta_data = pd.read_table("class_train.tsv")
     x = list(meta_data.loc[:, "fileName"])
     for i in range(len(x)):
-        files = os.listdir("trainSeparateData/" + x[i])
-        num = 0
-        for file in files:
-            num += 1
-        inputs = [str(n) + '.wav' for n in range(num)]
-        output = "trainAfter/" + x[i] + ".wav"
-        join_waves(inputs, output)
+        if os.path.exists("trainSeparateData/" + x[i]):
+            files = os.listdir("trainSeparateData/" + x[i])
+            num = 0
+            for file in files:
+                num += 1
+            inputs = ["trainSeparateData/" + x[i] + "/" + str(n) + '.wav' for n in range(num)]
+            output = "trainAfter/" + x[i] + ".wav"
+            join_waves(inputs, output)

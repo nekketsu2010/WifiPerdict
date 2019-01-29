@@ -20,7 +20,7 @@ def calculate_melsp(x, filename, num, n_fft=1024, hop_length=128):
     stft = np.abs(librosa.stft(x, n_fft=n_fft, hop_length=hop_length))**2
     log_stft = librosa.power_to_db(stft)
     melsp = librosa.feature.melspectrogram(S=log_stft,n_mels=128)
-    melsp = preprocessing.scale(melsp, axis=1)
+    # melsp = preprocessing.scale(melsp, axis=1)
     # mfcc = librosa.feature.mfcc(x, sr=16000, n_mfcc=128)
     # spec = librosa.feature.melspectrogram(x, sr=16000)
     # librosa.display.specshow(mfcc, sr=16000)
@@ -33,7 +33,7 @@ def calculate_melsp(x, filename, num, n_fft=1024, hop_length=128):
 def save_np_data(num, x, y, aug=None, rates=None):
 
     for i in range(len(y)):
-        _x, fs = load_wave_data("train", x[i] + ".wav")
+        _x, fs = load_wave_data("trainAfter", x[i] + ".wav")
         if aug is not None:
             _x = aug(x=_x, rate=rates[i])
         print(str(i) + "個処理しました！")
