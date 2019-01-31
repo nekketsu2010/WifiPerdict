@@ -19,7 +19,7 @@ def load_wave_data(audio_dir, file_name):
     return r
 
 
-meta_data = pd.read_table("class_train.tsv")
+meta_data = pd.read_table("sample_submit.tsv")
 labels, uniques = pd.factorize(meta_data['target'])
 meta_data['target'] = labels
 print(meta_data)
@@ -33,11 +33,11 @@ class_dict = meta_data["target"].unique()
 x = list(meta_data.loc[:, "fileName"])
 y = list(meta_data.loc[:, "target"])
 
-for i in range(len(y)):
-    len = load_wave_data("train", x[i])
-    with open( "trainLength.csv", "w", newline="") as f:
-        writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+with open( "testAfterLength.csv", "w", newline="") as f:
+    writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    for i in range(len(y)):
+        len = load_wave_data("testAfter", x[i])
         writer.writerow([x[i], len])
-    print(i)
+        print(i)
 print(max(length))
 print(min(length))
