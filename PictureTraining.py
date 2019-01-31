@@ -1,13 +1,46 @@
 from keras import Sequential, callbacks
 from keras.layers import Conv2D, Activation, MaxPooling2D, Dropout, Flatten, Dense
 from keras.optimizers import Adam, Adamax
+import keras.backend as K
 import numpy as np
 from keras.utils import np_utils
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 
 ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
-def BuildCNN(ipshape=(32, 32, 3), num_classes=6):
+
+def f1(y_true, y_pred):
+    def recall(y_true, y_pred):
+        """Recall metric.
+
+        Only computes a batch-wise average of recall.
+
+        Computes the recall, a metric for multi-label classification of
+        how many relevant items are selected.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        recall = true_positives / (possible_positives + K.epsilon())
+        return recall
+
+    def precision(y_true, y_pred):
+        """Precision metric.
+
+        Only computes a batch-wise average of precision.
+
+        Computes the precision, a metric for multi-label classification of
+        how many selected items are relevant.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+        precision = true_positives / (predicted_positives + K.epsilon())
+        return precision
+    precision = precision(y_true, y_pred)
+    recall = recall(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
+
+def BuildCNN(ipshape=(512, 512, 3), num_classes=6):
     model = Sequential()
 
     model.add(Conv2D(24, 3, padding='same', input_shape=ipshape))
@@ -15,8 +48,10 @@ def BuildCNN(ipshape=(32, 32, 3), num_classes=6):
 
     model.add(Conv2D(48, 3))
     model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    #ここに追記入れ替え
     model.add(Dropout(0.5))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(Dropout(0.5))
 
     model.add(Conv2D(96, 3, padding='same'))
     model.add(Activation('relu'))
@@ -36,10 +71,10 @@ def BuildCNN(ipshape=(32, 32, 3), num_classes=6):
     adam = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
     model.compile(loss='categorical_crossentropy',
                   optimizer=adam,
-                  metrics=['accuracy'])
+                  metrics=['accuracy', f1])
     return model
 
-def Learning(num, tsnum=30, nb_epoch=3000, batch_size=256, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y = load_array['y']
@@ -49,10 +84,10 @@ def Learning(num, tsnum=30, nb_epoch=3000, batch_size=256, learn_schedule=0.9):
     Y = np_utils.to_categorical(Y)
 
     # #訓練データとテストデータに分割
-    # x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2)
+    # x_train, x_val, y_train, y_val = train_test_split(X, Y, test_size=0.25)
 
     #コールバックの設定
-    cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/model.ep{epoch:02d}_loss{loss:.2f}_acc{acc:.2f}.hdf5", monitor='loss', save_best_only=True)
+    cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/model.ep{epoch:02d}_loss{loss:.2f}_acc{acc:.2f}.hdf5", monitor='val_loss', save_best_only=True)
 
     #訓練
     model = BuildCNN(ipshape=(X.shape[1], X.shape[2], X.shape[3]), num_classes=6)
@@ -61,6 +96,8 @@ def Learning(num, tsnum=30, nb_epoch=3000, batch_size=256, learn_schedule=0.9):
                         batch_size=batch_size,
                         verbose=1,
                         epochs=nb_epoch,
+                        shuffle=True,
+                        validation_split=0.25,
                         callbacks=[cp_cb])
 
 def main(num=0):
