@@ -6,15 +6,15 @@ from pydub import AudioSegment
 import pandas as pd
 import gc
 
-directoryName = "test/"
-meta_data = pd.read_table("sample_submit.tsv")
+directoryName = "train/"
+meta_data = pd.read_table("class_train.tsv")
 x = list(meta_data.loc[:, "fileName"])
 
 for i in range(len(x)):
+    print(i)
     if os.path.exists("trainSeparateData/" + x[i]):
         continue
     wav = AudioSegment.from_file(directoryName + x[i] + ".wav")
-    print(i)
     sounds = wav[::30]
     # num = 0
     # print(wav.frame_count())
@@ -55,7 +55,7 @@ for i in range(len(x)):
         if zeroCrosses[j]:
             print(j)
             print(x[i])
-            dirName = "testSeparateData/" + x[i]
+            dirName = "trainSeparateData/" + x[i]
             if not os.path.exists(dirName):
                 os.mkdir(dirName)
             sound.export(dirName + "/" + str(num) + ".wav", format="wav")

@@ -1,1 +1,2 @@
 １～３回目　epoch1000 batch_size128 TrainData８割
+５回目でtsv変更したマスターと今違う形

@@ -1,4 +1,5 @@
 import glob
+import os
 import numpy as np
 import pandas as pd
 from keras.preprocessing.image import img_to_array
@@ -14,6 +15,8 @@ def PreProcess(dirname):
     y = list(meta_data.loc[:, 'target'])
     np_targets = np.zeros(len(y))
     for i in range(len(y)):
+        if not os.path.exists(str(dirname) + "\\Image\\" + x[i] + ".png"):
+            continue
         img = load_img(str(dirname) + "\\Image\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
         array = img_to_array(img) / 255  # 画像ファイルのnumpy化
         #追記

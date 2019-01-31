@@ -20,7 +20,7 @@ def calculate_melsp(x, filename, num, n_fft=1024, hop_length=128):
     stft = np.abs(librosa.stft(x, n_fft=n_fft, hop_length=hop_length))**2
     log_stft = librosa.power_to_db(stft)
     melsp = librosa.feature.melspectrogram(S=log_stft,n_mels=128)
-    # melsp = preprocessing.scale(melsp, axis=1)
+    melsp = preprocessing.scale(melsp, axis=1)
     # mfcc = librosa.feature.mfcc(x, sr=16000, n_mfcc=128)
     # spec = librosa.feature.melspectrogram(x, sr=16000)
     # librosa.display.specshow(mfcc, sr=16000)
@@ -33,6 +33,13 @@ def calculate_melsp(x, filename, num, n_fft=1024, hop_length=128):
 def save_np_data(num, x, y, aug=None, rates=None):
 
     for i in range(len(y)):
+        if not os.path.exists("trainAfter/" + x[i] + ".wav"):
+            print("こいつない")
+            print(x[i])
+            # exit()
+            continue
+        if os.path.exists(str(num) + "回目/Image/" + x[i] + ".png"):
+            continue
         _x, fs = load_wave_data("trainAfter", x[i] + ".wav")
         if aug is not None:
             _x = aug(x=_x, rate=rates[i])
@@ -43,7 +50,7 @@ def save_np_data(num, x, y, aug=None, rates=None):
     #     np_targets[i] = y[i]
     # np.savez(filename, x=np_data, y=np_targets)
 
-def main(num=0):
+def main(num=5):
     meta_data = pd.read_table("class_train.tsv")
     labels, uniques = pd.factorize(meta_data['target'])
     meta_data['target'] = labels
@@ -61,3 +68,4 @@ def main(num=0):
     if not os.path.exists("esc_melsp_test.npz"):
         save_np_data(num, x, y)
     print("終わったお")
+main()
