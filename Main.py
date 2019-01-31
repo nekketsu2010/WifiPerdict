@@ -10,10 +10,10 @@ import PictureTraining
 number = sys.argv[1]
 #一通りフォルダ作成
 top = str(number) + "回目"
-os.mkdir(top)
-os.mkdir(str(top) + "/Image")
-os.mkdir(str(top) + "/Model")
-os.mkdir(str(top) + "/TestImage")
+# os.mkdir(top)
+# os.mkdir(str(top) + "/Image")
+# os.mkdir(str(top) + "/Model")
+# os.mkdir(str(top) + "/TestImage")
 
 # WavToImage.main(number)
 TestWaveToImage.main(number)

@@ -33,11 +33,11 @@ class_dict = meta_data["target"].unique()
 x = list(meta_data.loc[:, "fileName"])
 y = list(meta_data.loc[:, "target"])
 
-with open( "testAfterLength.csv", "w", newline="") as f:
-    writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    for i in range(len(y)):
-        len = load_wave_data("testAfter", x[i])
+for i in range(len(y)):
+    len = load_wave_data("test", x[i])
+    with open( "testLength.csv", "w", newline="") as f:
+        writer = csv.writer(f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow([x[i], len])
-        print(i)
+    print(i)
 print(max(length))
 print(min(length))

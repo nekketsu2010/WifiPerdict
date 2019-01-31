@@ -11,8 +11,10 @@ meta_data = pd.read_table("sample_submit.tsv")
 x = list(meta_data.loc[:, "fileName"])
 
 for i in range(len(x)):
-    wav = AudioSegment.from_file(directoryName + x[i] + ".wav")
     print(i)
+    if os.path.exists("trainSeparateData/" + x[i]):
+        continue
+    wav = AudioSegment.from_file(directoryName + x[i] + ".wav")
     sounds = wav[::30]
     # num = 0
     # print(wav.frame_count())

@@ -26,14 +26,16 @@ def join_waves(inputs, output):
 
 
 if __name__ == '__main__':
-    os.mkdir("testAfter")
-    meta_data = pd.read_table("sample_submit.tsv")
+    # os.mkdir("trainAfter")
+    meta_data = pd.read_table("class_train.tsv")
     x = list(meta_data.loc[:, "fileName"])
     for i in range(len(x)):
-        files = os.listdir("testSeparateData/" + x[i])
-        num = 0
-        for file in files:
-            num += 1
-        inputs = ["testSeparateData/" + x[i] + "/" + str(n) + '.wav' for n in range(num)]
-        output = "testAfter/" + x[i] + ".wav"
-        join_waves(inputs, output)
+        if os.path.exists("trainSeparateData/" + x[i]):
+            files = os.listdir("trainSeparateData/" + x[i])
+            num = 0
+            for file in files:
+                num += 1
+            inputs = ["trainSeparateData/" + x[i] + "/" + str(n) + '.wav' for n in range(num)]
+            output = "trainAfter/" + x[i] + ".wav"
+            if not os.path.exists(output):
+                join_waves(inputs, output)
