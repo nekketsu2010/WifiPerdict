@@ -4,5 +4,5 @@ test/
 .idea/
 *回目/
 trainSeparateData/
-trainAfter/
-cash.wav
+testSeparateData/
+testAfter/
