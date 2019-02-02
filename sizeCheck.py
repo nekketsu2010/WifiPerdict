@@ -1,3 +1,5 @@
+# 再生時間の分布出すためのスクリプトです
+
 import os
 import wave
 

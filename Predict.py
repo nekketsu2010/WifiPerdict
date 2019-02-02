@@ -45,7 +45,7 @@ fileNames = np.load("testFileName.npy")
 X = load_array['x']
 
 Y = model.predict(X, verbose=1)
-classes =  Y.argmax(axis=-1)
+classes = Y.argmax(axis=-1)
 with open(str(directory) + "testPredictResult.tsv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t", quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for i in range(len(fileNames)):
