@@ -12,17 +12,11 @@ x = list(meta_data.loc[:, "fileName"])
 
 for i in range(len(x)):
     print(i)
-    if os.path.exists("trainSeparateData/" + x[i]):
+    if os.path.exists("testSeparateData/" + x[i]):
         continue
     wav = AudioSegment.from_file(directoryName + x[i] + ".wav")
     sounds = wav[::30]
-    # num = 0
-    # print(wav.frame_count())
-    # while True:
-    #     #取り出し
-    #     print(num)
-    #     sounds.append(wav[num:num+30])
-    #     num += 30
+
     #取り出し終わったあとの処理
     #ゼロクロスしてTrueかFalseの判定
     zeroCrosses = []

@@ -4,9 +4,9 @@ import csv
 
 ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
 
-directory = "5回目\\"
+directory = "7回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep35_loss0.20_acc0.93.hdf5")
+model = load_model(str(directory) + "Model\\model.ep844_loss0.01_acc1.00.hdf5")
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")

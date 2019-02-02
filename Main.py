@@ -1,10 +1,10 @@
 import sys
 import os
 
-# import TestWaveToImage
-# import WavToImage
-# import PictureToNumpy
-# import Test_PictureToNumpy
+import TestWaveToImage
+import WavToImage
+import PictureToNumpy
+import Test_PictureToNumpy
 import PictureTraining
 
 number = sys.argv[1]
@@ -17,6 +17,6 @@ number = sys.argv[1]
 
 # WavToImage.main(number)
 # TestWaveToImage.main(number)
-# PictureToNumpy.main(number)
-# Test_PictureToNumpy.main(number)
-PictureTraining.main(number)
+PictureToNumpy.main(number)
+Test_PictureToNumpy.main(number)
+# PictureTraining.main(number)
