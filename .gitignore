@@ -9,3 +9,4 @@ trainSeparateData/
 testSeparateData/
 trainAfter/
 testAfter/
+__pycache__/
