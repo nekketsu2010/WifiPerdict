@@ -1,12 +1,44 @@
 from keras.engine.saving import load_model
 import numpy as np
 import csv
+import keras.backend as K
+
+def f1(y_true, y_pred):
+    def recall(y_true, y_pred):
+        """Recall metric.
+
+        Only computes a batch-wise average of recall.
+
+        Computes the recall, a metric for multi-label classification of
+        how many relevant items are selected.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        recall = true_positives / (possible_positives + K.epsilon())
+        return recall
+
+    def precision(y_true, y_pred):
+        """Precision metric.
+
+        Only computes a batch-wise average of precision.
+
+        Computes the precision, a metric for multi-label classification of
+        how many selected items are relevant.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+        precision = true_positives / (predicted_positives + K.epsilon())
+        return precision
+    precision = precision(y_true, y_pred)
+    recall = recall(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
 
 ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
 
-directory = "5回目\\"
+directory = "9回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep35_loss0.20_acc0.93.hdf5")
+model = load_model(str(directory) + "Model\\model.ep242_loss0.03_acc0.99.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")

@@ -25,7 +25,7 @@ def calculate_melsp(x, filename, num, n_fft=1024, hop_length=128):
     # spec = librosa.feature.melspectrogram(x, sr=16000)
     # librosa.display.specshow(mfcc, sr=16000)
     librosa.display.specshow(melsp, sr=16000)
-    plt.savefig(str(num) + "回目/Image/" + filename + ".png")
+    plt.savefig(str(num) + "回目/Image/" + filename + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
     plt.close()
     # return melsp
     # return mfcc
