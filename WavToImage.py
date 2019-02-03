@@ -15,11 +15,11 @@ def load_wave_data(audio_dir, file_name):
     return x, fs
 
 def main(num=0, train=True):
-    tsvname = 'sample_submit.tsv'
+    tsvname = 'New_sample_submit.tsv'
     audioFolder = 'silentTest'
     imageFolder = 'TestImage'
     if train:
-        tsvname = 'class_train.tsv'
+        tsvname = 'New_class_train.tsv'
         audioFolder = 'silentTrain'
         imageFolder = 'Image'
 
@@ -39,12 +39,12 @@ def main(num=0, train=True):
         #ここからメルスペクトル変換処理
         n_fft = 1024
         hop_length = 128
-        stft = np.abs(librosa.stft(x, n_fft=n_fft, hop_length=hop_length)) ** 2
+        stft = np.abs(librosa.stft(_x, n_fft=n_fft, hop_length=hop_length)) ** 2
         log_stft = librosa.power_to_db(stft)
         melsp = librosa.feature.melspectrogram(S=log_stft)
         mfccs = librosa.feature.mfcc(S=melsp)
         mfccs = preprocessing.scale(mfccs, axis=1)
         librosa.display.specshow(mfccs, sr=16000)
-        plt.savefig(str(num) + "回目/Image/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
+        plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
         plt.close()
     print("終わったお")

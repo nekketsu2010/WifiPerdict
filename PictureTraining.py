@@ -1,5 +1,5 @@
 from keras import Sequential, callbacks
-from keras.layers import Conv2D, Activation, MaxPooling2D, Dropout, Flatten, Dense
+from keras.layers import Conv2D, Activation, MaxPooling2D, Dropout, Flatten, Dense, BatchNormalization
 from keras.optimizers import Adam, Adamax
 import keras.backend as K
 import numpy as np
@@ -60,12 +60,13 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # model.add(Dropout(0.5))
 
     model.add(Conv2D(96, 3, padding='same'))
+    model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Conv2D(96, 3))
     model.add(Activation('relu'))
-    #ここに追記入れ替え、しかも0.8にした
-    model.add(Dropout(0.8))
+    #ここに追記入れ替え、しかも0.8にした、やっぱ0.5
+    model.add(Dropout(0.5))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     # model.add(Dropout(0.5))
 
@@ -85,7 +86,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=100, batch_size=128, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y_gender = load_array['y_gender']
@@ -104,8 +105,8 @@ def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
     model = BuildCNN(ipshape=(X.shape[1], X.shape[2], X.shape[3]))
     print(">>　学習開始")
 
-    #nb_epochエポックで１００回学習させる
-    for i in range(100):
+    #nb_epochエポックで30回学習させる
+    for i in range(30):
         #コールバックの設定
         cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_loss{loss:.2f}_acc{acc:.2f}.hdf5", monitor='val_loss', save_best_only=True)
         if not os.path.exists(str(num) + "回目/Model/" + str(i)):
@@ -119,7 +120,8 @@ def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
                             callbacks=[cp_cb])
         p = np.random.permutation(len(X))
         X = X[p]
-        Y = Y[p] 
+        Y_gender = Y_gender[p]
+        Y_generation = Y_generation[p]
     
 
 def main(num=0):

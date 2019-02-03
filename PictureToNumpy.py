@@ -7,9 +7,11 @@ from keras_preprocessing.image import load_img
 
 hw = {"height":64, "width":48}
 def PreProcess(dirname, train):
-    tsvname = 'sample_submit.tsv'
+    tsvname = 'New_sample_submit.tsv'
+    imageFolder = 'TestImage'
     if train:
-        tsvname = 'class_train.tsv'
+        tsvname = 'New_class_train.tsv'
+        imageFolder = 'Image'
 
     arrlist = []
     meta_data = pd.read_table(tsvname)
@@ -23,9 +25,9 @@ def PreProcess(dirname, train):
     np_genders = np.zeros(len(y_gender))
     np_generations = np.zeros(len(y_generation))
     for i in range(len(y_gender)):
-        if not os.path.exists(str(dirname) + "\\Image\\" + x[i] + ".png"):
+        if not os.path.exists(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png"):
             continue
-        img = load_img(str(dirname) + "\\Image\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
+        img = load_img(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
         array = img_to_array(img) / 255  # 画像ファイルのnumpy化
         #追記
         array_list = array.tolist()
@@ -36,9 +38,9 @@ def PreProcess(dirname, train):
     nplist = np.asarray(arrlist)
     print(">> " + dirname + "から" + str(i) + "個ファイル読み込み成功")
     if train:
-        np.savez(str(dirname) + "\\TrainData", x=nplist, y_gender=np_genders)
+        np.savez(str(dirname) + "\\TrainData", x=nplist, y_gender=np_genders, y_generation=np_generations)
     else:
-        np.savez(str(dirname) + "\\TestData", x=nplist, y_generation=np_generations)
+        np.savez(str(dirname) + "\\TestData", x=nplist, y_gender=np_genders, y_generation=np_generations)
 
 def main(num=0, train=True):
     PreProcess(str(num) + "回目", train)
