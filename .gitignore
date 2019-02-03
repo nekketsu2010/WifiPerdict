@@ -1,6 +1,8 @@
 Image/
 train/
 test/
+silentTrain/
+silentTest/
 .idea/
 *回目/
 trainSeparateData/

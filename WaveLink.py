@@ -1,6 +1,7 @@
 import wave
 import os
 import pandas as pd
+import shutil
 
 
 def join_waves(inputs, output):
@@ -26,16 +27,27 @@ def join_waves(inputs, output):
 
 
 if __name__ == '__main__':
-    # os.mkdir("trainAfter")
-    meta_data = pd.read_table("class_train.tsv")
+    if not os.path.exists("どうよ"):
+        os.mkdir("どうよ")
+    src = "test/"
+    copy = "どうよ/"
+    meta_data = pd.read_table("sample_submit.tsv")
     x = list(meta_data.loc[:, "fileName"])
+
+    # x = ["3042b3c81d6d4ea0165f3ac6c5387272", "3a5c89b172235ee5c45bcb9b5a134971"]
     for i in range(len(x)):
-        if os.path.exists("trainSeparateData/" + x[i]):
-            files = os.listdir("trainSeparateData/" + x[i])
+        folder = "これでどうだ/"
+        if os.path.exists(folder + x[i]):
+            files = os.listdir(folder + x[i])
             num = 0
             for file in files:
                 num += 1
-            inputs = ["trainSeparateData/" + x[i] + "/" + str(n) + '.wav' for n in range(num)]
-            output = "trainAfter/" + x[i] + ".wav"
+
+            if num==0:
+                #num=0→オリジナルのファイルをコピーすることにする
+                shutil.copy(src + x[i] + ".wav", copy + x[i] + ".wav")
+                continue
+            inputs = [folder + x[i] + "/" + str(n) + '.wav' for n in range(num)]
+            output = "どうよ/" + x[i] + ".wav"
             if not os.path.exists(output):
                 join_waves(inputs, output)
