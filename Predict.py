@@ -36,9 +36,9 @@ def f1(y_true, y_pred):
 
 ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
 
-directory = "9回目\\"
+directory = "10回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep242_loss0.03_acc0.99.hdf5", custom_objects={'f1':f1})
+model = load_model(str(directory) + "Model\\model.ep30_loss0.10_acc0.97.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")
