@@ -4,6 +4,7 @@ from keras.optimizers import Adam, Adamax
 import keras.backend as K
 import numpy as np
 from keras.utils import np_utils
+from keras.initializers import he_normal
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 
@@ -70,13 +71,13 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(128))
+    model.add(Dense(128, kernel_initializer=he_normal()))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
 
     #出力層（以下二行で性別・年代に分けて同じモデルで出力できる，softmaxを2つつけた感じ）
-    model.add(Dense(gender_classes, activation='softmax', name='gender'))
-    model.add(Dense(generation_classes, activation='softmax', name='generation'))
+    model.add(Dense(gender_classes, activation='softmax', name='gender', kernel_initializer=he_normal()))
+    model.add(Dense(generation_classes, activation='softmax', name='generation', kernel_initializer=he_normal()))
 
     adam = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
     model.compile(loss='categorical_crossentropy',
@@ -119,8 +120,8 @@ def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
                             callbacks=[cp_cb])
         p = np.random.permutation(len(X))
         X = X[p]
-        Y = Y[p] 
-    
+        Y_gender = Y_gender[p]
+        Y_generation = Y_generation[p]
 
 def main(num=0):
     Learning(num)
