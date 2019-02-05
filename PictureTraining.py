@@ -60,7 +60,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # model.add(Dropout(0.5))
 
     model.add(Conv2D(96, 3, padding='same'))
-    model.add(BatchNormalization())
+    # model.add(BatchNormalization())
     model.add(Activation('relu'))
 
     model.add(Conv2D(96, 3))
