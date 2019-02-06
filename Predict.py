@@ -1,4 +1,5 @@
 from keras.engine.saving import load_model
+import os
 import numpy as np
 import csv
 import keras.backend as K
@@ -36,7 +37,7 @@ def f1(y_true, y_pred):
 
 ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
 
-directory = "9回目\\"
+directory = "11回目\\"
 
 model = load_model(str(directory) + "Model\\model.ep242_loss0.03_acc0.99.hdf5", custom_objects={'f1':f1})
 
@@ -45,7 +46,10 @@ fileNames = np.load("testFileName.npy")
 X = load_array['x']
 
 Y = model.predict(X, verbose=1)
+print(Y)
+os.system("EnterKeyください")
 classes = Y.argmax(axis=-1)
+print(classes)
 with open(str(directory) + "testPredictResult.tsv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t", quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for i in range(len(fileNames)):

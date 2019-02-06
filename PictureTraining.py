@@ -85,7 +85,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=5, batch_size=128, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y_gender = load_array['y_gender']
@@ -105,7 +105,7 @@ def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
     print(">>　学習開始")
 
     #nb_epochエポックで１００回学習させる
-    for i in range(100):
+    for i in range(4):
         #コールバックの設定
         cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_loss{loss:.2f}_acc{acc:.2f}.hdf5", monitor='val_loss', save_best_only=True)
         if not os.path.exists(str(num) + "回目/Model/" + str(i)):
