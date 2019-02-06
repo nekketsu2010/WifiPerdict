@@ -15,11 +15,11 @@ def load_wave_data(audio_dir, file_name):
     return x, fs
 
 def main(num=0, train=True):
-    tsvname = 'sample_submit.tsv'
+    tsvname = 'New_sample_submit.tsv'
     audioFolder = 'silentTest'
     imageFolder = 'TestImage'
     if train:
-        tsvname = 'class_train.tsv'
+        tsvname = 'New_class_train.tsv'
         audioFolder = 'silentTrain'
         imageFolder = 'Image'
 
