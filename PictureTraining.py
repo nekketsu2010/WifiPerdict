@@ -1,5 +1,5 @@
-from keras import Sequential, callbacks
-from keras.layers import Conv2D, Activation, MaxPooling2D, Dropout, Flatten, Dense
+from keras import Sequential, callbacks, layers, Model
+from keras.layers import Conv2D, Activation, MaxPooling2D, Dropout, Flatten, Dense, BatchNormalization
 from keras.optimizers import Adam, Adamax
 import keras.backend as K
 import numpy as np
@@ -50,43 +50,47 @@ def f1(y_true, y_pred):
 def BuildCNN(ipshape=(512, 512, 3)):
     model = Sequential()
 
-    model.add(Conv2D(24, 3, padding='same', input_shape=ipshape))
-    model.add(Activation('relu'))
+    layer0 = layers.Input(ipshape)
+    layer1 = layers.Conv2D(24, 3, padding='same', input_shape=ipshape)(layer0)
+    layer2 = layers.Activation('relu')(layer1)
 
-    model.add(Conv2D(48, 3))
-    model.add(Activation('relu'))
+    layer3 =layers.Conv2D(48, 3)(layer2)
+    layer4 = layers.Activation('relu')(layer3)
     #ここに追記入れ替え
-    model.add(Dropout(0.5))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    layer5 = layers.Dropout(0.5)(layer4)
+    layer6 = layers.MaxPooling2D(pool_size=(2, 2))(layer5)
     # model.add(Dropout(0.5))
 
-    model.add(Conv2D(96, 3, padding='same'))
-    model.add(Activation('relu'))
+    layer7 = layers.Conv2D(96, 3, padding='same')(layer6)
+    layer8 = layers.Activation('relu')(layer7)
 
-    model.add(Conv2D(96, 3))
-    model.add(Activation('relu'))
+    layer9 = layers.Conv2D(96, 3)(layer8)
+    layer10 = layers.Activation('relu')(layer9)
     #ここに追記入れ替え、しかも0.8にした
-    model.add(Dropout(0.8))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    layer11 = layers.Dropout(0.8)(layer10)
+    layer12 = layers.MaxPooling2D(pool_size=(2, 2))(layer11)
     # model.add(Dropout(0.5))
 
-    model.add(Flatten())
-    model.add(Dense(128, kernel_initializer=he_normal()))
-    model.add(Activation('relu'))
-    model.add(Dropout(0.5))
+    layer13 = layers.Flatten()(layer12)
+    layer14 = layers.Dense(128, kernel_initializer=he_normal())(layer13)
+    layer15 = layers.Activation('relu')(layer14)
+    # model.add(Dropout(0.5))
+    layer16 = layers.BatchNormalization()(layer15)
 
     #出力層（以下二行で性別・年代に分けて同じモデルで出力できる，softmaxを2つつけた感じ）
-    model.add(Dense(gender_classes, activation='softmax', name='gender', kernel_initializer=he_normal()))
-    model.add(Dense(generation_classes, activation='softmax', name='generation', kernel_initializer=he_normal()))
+    gender_layer = layers.Dense(gender_classes, activation='softmax', name='gender', kernel_initializer=he_normal())(layer16)
+    generation_layer = layers.Dense(generation_classes, activation='softmax', name='generation', kernel_initializer=he_normal())(layer16)
+
+    model = Model(inputs=layer0, outputs=[gender_layer, generation_layer])
 
     adam = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss={"gender": "categorical_crossentropy", "generation": "categorical_crossentropy"},
                   optimizer=adam,
                   metrics=['accuracy', f1])
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=100, batch_size=128, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y_gender = load_array['y_gender']
@@ -106,9 +110,9 @@ def Learning(num, tsnum=30, nb_epoch=30, batch_size=128, learn_schedule=0.9):
     print(">>　学習開始")
 
     #nb_epochエポックで１００回学習させる
-    for i in range(100):
+    for i in range(30):
         #コールバックの設定
-        cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_loss{loss:.2f}_acc{acc:.2f}.hdf5", monitor='val_loss', save_best_only=True)
+        cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_loss{loss:.2f}.hdf5", monitor='val_loss', save_best_only=True)
         if not os.path.exists(str(num) + "回目/Model/" + str(i)):
             os.mkdir(str(num) + "回目/Model/" + str(i))
         history = model.fit(X, {'gender': Y_gender, 'generation': Y_generation},
