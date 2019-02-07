@@ -41,7 +41,7 @@ generationNames = ['CH', 'AD', 'EL']
 
 directory = "13回目\\"
 
-model = load_model(str(directory) + "Model\\0\\model.ep05_loss0.91.hdf5", custom_objects={'f1':f1})
+model = load_model(str(directory) + "Model\\29\\model.ep47_loss0.01.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")
