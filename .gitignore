@@ -9,4 +9,5 @@ trainSeparateData/
 testSeparateData/
 trainAfter/
 testAfter/
+DownSampling*/
 __pycache__/
