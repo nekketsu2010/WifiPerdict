@@ -5,7 +5,7 @@ import pandas as pd
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import load_img
 
-hw = {"height":64, "width":48}
+hw = {"height":128, "width":96}
 def PreProcess(dirname, train):
     tsvname = 'New_sample_submit.tsv'
     imageFolder = 'TestImage'
