@@ -5,8 +5,7 @@ import keras.backend as K
 import numpy as np
 from keras.utils import np_utils
 from keras.initializers import he_normal
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedKFold
 
 import os
 
@@ -90,7 +89,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=100, batch_size=128, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y_gender = load_array['y_gender']
@@ -101,31 +100,35 @@ def Learning(num, tsnum=30, nb_epoch=100, batch_size=128, learn_schedule=0.9):
     Y_gender = np_utils.to_categorical(Y_gender)
     Y_generation = np_utils.to_categorical(Y_generation)
 
-    # #訓練データとテストデータに分割
-    # x_train, x_val, y_train, y_val = train_test_split(X, Y, test_size=0.25)
+    # 10分割交差検証を行なう
+    kfold = StratifiedKFold(n_splits=10, shuffle=True)
+    cvscores = []
 
-
-    #訓練
-    model = BuildCNN(ipshape=(X.shape[1], X.shape[2], X.shape[3]))
-    print(">>　学習開始")
 
     #nb_epochエポックで１００回学習させる
-    for i in range(30):
+    i = 0
+    for train, test in kfold.split(X, Y_gender, Y_generation):
+        # 訓練
+        model = BuildCNN(ipshape=(X[train].shape[1], X[train].shape[2], X[train].shape[3]))
+        print(">>　学習開始")
         #コールバックの設定
-        cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_loss{loss:.2f}.hdf5", monitor='val_loss', save_best_only=True)
+        cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_val_loss{val_loss:.2f}.hdf5", monitor='val_loss', save_best_only=True)
+        early_stop = callbacks.EarlyStopping(monitor='val_loss', min_delta=0.01, patience=10, verbose=0, mode='auto')
+
         if not os.path.exists(str(num) + "回目/Model/" + str(i)):
             os.mkdir(str(num) + "回目/Model/" + str(i))
-        history = model.fit(X, {'gender': Y_gender, 'generation': Y_generation},
+        history = model.fit(X[train], {'gender': Y_gender[train], 'generation': Y_generation[train]},
                             batch_size=batch_size,
                             verbose=1,
                             epochs=nb_epoch,
                             shuffle=True,
                             validation_split=0.25,
-                            callbacks=[cp_cb])
-        p = np.random.permutation(len(X))
-        X = X[p]
-        Y_gender = Y_gender[p]
-        Y_generation = Y_generation[p]
+                            callbacks=[cp_cb, early_stop])
+        scores = model.evaluate(X[test], {'gender': Y_gender[test], 'generation': Y_generation[test]}, verbose=0)
+        print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
+        cvscores.append(scores[1] * 100)
+        i += 1
+    print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.std(cvscores)))
 
 def main(num=0):
     Learning(num)
