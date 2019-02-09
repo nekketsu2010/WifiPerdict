@@ -5,7 +5,7 @@ import keras.backend as K
 import numpy as np
 from keras.utils import np_utils
 from keras.initializers import he_normal
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import KFold
 
 import os
 
@@ -101,13 +101,13 @@ def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
     Y_generation = np_utils.to_categorical(Y_generation)
 
     # 10分割交差検証を行なう
-    kfold = StratifiedKFold(n_splits=10, shuffle=True)
+    kfold = KFold(n_splits=10, shuffle=True)
     cvscores = []
 
 
     #nb_epochエポックで１００回学習させる
     i = 0
-    for train, test in kfold.split(X, Y_gender, Y_generation):
+    for train, test in kfold.split(X):
         # 訓練
         model = BuildCNN(ipshape=(X[train].shape[1], X[train].shape[2], X[train].shape[3]))
         print(">>　学習開始")
@@ -122,7 +122,7 @@ def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
                             verbose=1,
                             epochs=nb_epoch,
                             shuffle=True,
-                            validation_split=0.25,
+                            validation_data=(X[test], {'gender':Y_gender[test], 'generation':Y_generation[test]}),
                             callbacks=[cp_cb, early_stop])
         scores = model.evaluate(X[test], {'gender': Y_gender[test], 'generation': Y_generation[test]}, verbose=0)
         print("%s: %.2f%%" % (model.metrics_names[1], scores[1] * 100))
