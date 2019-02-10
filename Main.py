@@ -13,7 +13,7 @@ number = sys.argv[1]
 # os.mkdir(str(top) + "/TestImage")
 
 # WavToImage.main(number, train=True)
-# WavToImage.main(number, train=False)
-# PictureToNumpy.main(number, train=True)
-# PictureToNumpy.main(number, train=False)
-PictureTraining.main(number)
+WavToImage.main(number, train=False)
+PictureToNumpy.main(number, train=True)
+PictureToNumpy.main(number, train=False)
+# PictureTraining.main(number)

@@ -32,19 +32,24 @@ def main(num=0, train=True):
             print("こいつない")
             print(x[i])
             continue
-        if os.path.exists(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png"):
-            continue
+        # if os.path.exists(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png"):
+        #     continue
         _x, fs = load_wave_data(audioFolder, x[i] + ".wav")
         print(str(i) + "個処理しました！")
         #ここからメルスペクトル変換処理
-        n_fft = 1024
-        hop_length = 128
+        n_fft = 64
+        hop_length = 16 # n_fftとってきてhop_lenghtだけずらしてn_fftだけポイントを取ってくる
         stft = np.abs(librosa.stft(_x, n_fft=n_fft, hop_length=hop_length)) ** 2
         log_stft = librosa.power_to_db(stft)
-        melsp = librosa.feature.melspectrogram(S=log_stft)
-        mfccs = librosa.feature.mfcc(S=melsp)
-        mfccs = preprocessing.scale(mfccs, axis=1)
-        librosa.display.specshow(mfccs, sr=8000)
+        librosa.display.specshow(log_stft, sr=8000)
         plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
         plt.close()
+        # 二枚目が一番わかり易い↑
+        # melsp = librosa.feature.melspectrogram(S=log_stft)
+        # mfccs = librosa.feature.mfcc(S=melsp)
+        # mfccs = preprocessing.scale(mfccs, axis=1)
+        # librosa.display.specshow(melsp, sr=8000, x_axis='time', y_axis='mel')
+        # plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
+        # plt.show()
+        # plt.close()
     print("終わったお")
