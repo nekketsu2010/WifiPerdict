@@ -39,9 +39,9 @@ genderNames = ['MA', 'FE']
 generationNames = ['CH', 'AD', 'EL']
 
 
-directory = "14回目\\"
+directory = "15回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep61_val_loss0.41.hdf5", custom_objects={'f1':f1})
+model = load_model(str(directory) + "Model\\model.ep15_val_loss0.98.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")
