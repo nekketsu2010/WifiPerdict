@@ -27,8 +27,8 @@ def PreProcess(dirname, train):
     for i in range(len(y_gender)):
         if not os.path.exists(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png"):
             continue
-        #史上初！グレースケール
-        img = load_img(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png", grayscale=True, target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
+        #史上初！グレースケール　←やめた
+        img = load_img(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
         array = img_to_array(img) / 255  # 画像ファイルのnumpy化
         #追記
         array_list = array.tolist()
