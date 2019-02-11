@@ -72,8 +72,8 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # layer10 = layers.Activation('relu')(layer9)
     layer10 = leaky_relu(layer9)
 
-    #ここに追記入れ替え、しかも0.8にした
-    layer11 = layers.Dropout(0.8)(layer10)
+    #ここに追記入れ替え、しかも0.8にした(やっぱ0.5)
+    layer11 = layers.Dropout(0.5)(layer10)
     layer12 = layers.MaxPooling2D(pool_size=(2, 2))(layer11)
     # model.add(Dropout(0.5))
 
@@ -82,12 +82,12 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # layer15 = layers.Activation('relu')(layer14)
     layer15 = leaky_relu(layer14)
 
-    # model.add(Dropout(0.5))
-    layer16 = layers.BatchNormalization()(layer15)
+    layer16 = layers.Dropout(0.5)(layer15)
+    layer17 = layers.BatchNormalization()(layer16)
 
     #出力層（以下二行で性別・年代に分けて同じモデルで出力できる，softmaxを2つつけた感じ）
-    gender_layer = layers.Dense(gender_classes, activation='softmax', name='gender', kernel_initializer=he_normal())(layer16)
-    generation_layer = layers.Dense(generation_classes, activation='softmax', name='generation', kernel_initializer=he_normal())(layer16)
+    gender_layer = layers.Dense(gender_classes, activation='softmax', name='gender', kernel_initializer=he_normal())(layer17)
+    generation_layer = layers.Dense(generation_classes, activation='softmax', name='generation', kernel_initializer=he_normal())(layer17)
 
     model = Model(inputs=layer0, outputs=[gender_layer, generation_layer])
 
@@ -98,7 +98,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=3000, batch_size=256, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y_gender = load_array['y_gender']
@@ -121,7 +121,7 @@ def Learning(num, tsnum=30, nb_epoch=3000, batch_size=128, learn_schedule=0.9):
         print(">>　学習開始")
         #コールバックの設定
         cp_cb = callbacks.ModelCheckpoint(filepath=str(num) + "回目/Model/" + str(i) + "/model.ep{epoch:02d}_val_loss{val_loss:.2f}.hdf5", monitor='val_loss', save_best_only=True)
-        early_stop = callbacks.EarlyStopping(monitor='val_loss', min_delta=0.001, patience=50, verbose=0, mode='auto')
+        early_stop = callbacks.EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=100, verbose=0, mode='auto')
 
         if not os.path.exists(str(num) + "回目/Model/" + str(i)):
             os.mkdir(str(num) + "回目/Model/" + str(i))
