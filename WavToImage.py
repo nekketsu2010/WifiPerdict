@@ -11,7 +11,7 @@ from sklearn import preprocessing
 
 def load_wave_data(audio_dir, file_name):
     file_path = os.path.join(audio_dir, file_name)
-    x, fs = librosa.load(file_path, sr=4000)
+    x, fs = librosa.load(file_path, sr=8000)
     return x, fs
 
 def main(num=0, train=True):
@@ -41,7 +41,8 @@ def main(num=0, train=True):
         hop_length = 1024 # n_fftとってきてhop_lenghtだけずらしてn_fftだけポイントを取ってくる
         stft = np.abs(librosa.stft(_x, n_fft=n_fft, hop_length=hop_length)) ** 2
         log_stft = librosa.power_to_db(stft)
-        librosa.display.specshow(log_stft, sr=4000)
+        librosa.display.specshow(log_stft, sr=8000)
+        plt.show()
         plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
         plt.close()
         # 二枚目が一番わかり易い↑
