@@ -42,7 +42,6 @@ def main(num=0, train=True):
         stft = np.abs(librosa.stft(_x, n_fft=n_fft, hop_length=hop_length)) ** 2
         log_stft = librosa.power_to_db(stft)
         librosa.display.specshow(log_stft, sr=4000)
-        plt.show()
         plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
         plt.close()
         # 二枚目が一番わかり易い↑
