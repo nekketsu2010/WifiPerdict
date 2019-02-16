@@ -34,28 +34,31 @@ def f1(y_true, y_pred):
     return 2*((precision*recall)/(precision+recall+K.epsilon()))
 
 
-# ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
-genderNames = ['MA', 'FE']
-generationNames = ['CH', 'AD', 'EL']
+ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
+# genderNames = ['MA', 'FE']
+# generationNames = ['CH', 'AD', 'EL']
 
 
-directory = "15回目\\"
+directory = "19回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep15_val_loss0.98.hdf5", custom_objects={'f1':f1})
+model = load_model(str(directory) + "Model\\model.ep59_val_loss0.37.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")
 X = load_array['x']
 
-(Y_gender, Y_generation) = model.predict(X, verbose=1)
-# Y_generation = model.predict(X)
-gender_classes = Y_gender.argmax(axis=-1)
-generation_classes = Y_generation.argmax(axis=-1)
+Y = model.predict(X, verbose=1)
+# (Y_gender, Y_generation) = model.predict(X, verbose=1)
+classes = Y.argmax(axis=-1)
+# gender_classes = Y_gender.argmax(axis=-1)
+# generation_classes = Y_generation.argmax(axis=-1)
 with open(str(directory) + "testPredictResult.tsv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t", quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for i in range(len(fileNames)):
         fileName = fileNames[i]
-        gender_class = gender_classes[i]
-        generation_class = generation_classes[i]
-        writer.writerow([fileName, genderNames[gender_class] + "_" + generationNames[generation_class]])
-        # writer.writerow([fileName, generationNames[generation_class]])
+        y_class = classes[i]
+        # gender_class = gender_classes[i]
+        # generation_class = generation_classes[i]
+
+        writer.writerow([fileName, ClassNames[y_class]])
+        # writer.writerow([fileName, genderNames[gender_class] + "_" + generationNames[generation_class]])
