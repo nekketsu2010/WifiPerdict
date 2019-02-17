@@ -10,12 +10,12 @@ def PreProcess(dirname, train):
     # Gender x Generation
     # tsvname = 'New_sample_submit.tsv'
     tsvname = 'sample_submit.tsv'
-    imageFolder = 'TestImage'
+    imageFolders = ['TestImage']
     if train:
         # Gender x Generation
         # tsvname = 'New_class_train.tsv'
         tsvname = 'class_train.tsv'
-        imageFolder = 'Image'
+        imageFolders = ['Image', 'Image_wn', 'Image_ss', 'Image_st', 'Image_com']
 
     arrlist = []
     meta_data = pd.read_table(tsvname)
@@ -31,22 +31,25 @@ def PreProcess(dirname, train):
     # y_generation = list(meta_data.loc[:, 'generation'])
     # np_genders = np.zeros(len(y_gender))
     # np_generations = np.zeros(len(y_generation))
-    np_targets = np.zeros(len(y))
-    for i in range(len(y)):
-        if not os.path.exists(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png"):
-            continue
-        #史上初！グレースケール　←やめた
-        img = load_img(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
-        array = img_to_array(img) / 255  # 画像ファイルのnumpy化
-        #追記
-        array_list = array.tolist()
-        arrlist.append(array_list)  # numpy型データをリストに追加
-        np_targets[i] = y[i]
-        # np_genders[i] = y_gender[i]
-        # np_generations[i] = y_generation[i]
-        print("%d個のデータを処理しました" % i)
-    nplist = np.asarray(arrlist)
-    print(">> " + dirname + "から" + str(i) + "個ファイル読み込み成功")
+    np_targets = np.zeros(len(y) * len(imageFolders))
+    nplist = np.zeros()
+    for image_num in range(len(imageFolders)):
+        imageFolder = imageFolders[image_num]
+        for i in range(len(y)):
+            if not os.path.exists(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png"):
+                continue
+            #史上初！グレースケール　←やめた
+            img = load_img(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png", target_size=(hw["height"], hw["width"]))  # 画像ファイルの読み込み
+            array = img_to_array(img) / 255  # 画像ファイルのnumpy化
+            #追記
+            array_list = array.tolist()
+            arrlist.append(array_list)  # numpy型データをリストに追加
+            np_targets[i + (len(y) * image_num)] = y[i]
+            # np_genders[i] = y_gender[i]
+            # np_generations[i] = y_generation[i]
+            print("%d個のデータを処理しました" % i)
+        nplist = np.asarray(arrlist)
+        print(">> " + dirname + "から" + str(i) + "個ファイル読み込み成功")
     if train:
         np.savez(str(dirname) + "\\TrainData", x=nplist, y=np_targets)
         # np.savez(str(dirname) + "\\TrainData", x=nplist, y_gender=np_genders, y_generation=np_generations)

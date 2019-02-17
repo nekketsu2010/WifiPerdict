@@ -6,15 +6,16 @@ from pydub import AudioSegment
 import pandas as pd
 import gc
 
-directoryName = "test/"
-meta_data = pd.read_table("sample_submit.tsv")
+directoryName = "DownSamplingTrain/"
+meta_data = pd.read_table("class_train_30.tsv")
 x = list(meta_data.loc[:, "fileName"])
 
 for i in range(len(x)):
     print(i)
-    if os.path.exists("testSeparateData/" + x[i]):
+    if os.path.exists("trainSeparateData/" + x[i]):
         continue
-    wav = AudioSegment.from_file(directoryName + x[i] + ".wav")
+    wav = AudioSegment.from_file(str(directoryName) + x[i] + ".wav", format="wav")
+    # wav = AudioSegment.from_file("cash.wav")
     sounds = wav[::30]
 
     #取り出し終わったあとの処理
@@ -27,7 +28,7 @@ for i in range(len(x)):
         sound, _ = librosa.load("cash.wav")
         zeroCross = librosa.zero_crossings(sound, pad=False)
         gc.collect()
-        zeroCrosses.append(sum(zeroCross) > 30)
+        zeroCrosses.append(sum(zeroCross) > 15)
     print(zeroCrosses)
     skip = False
     for j in range(len(zeroCrosses)):
@@ -49,7 +50,7 @@ for i in range(len(x)):
         if zeroCrosses[j]:
             print(j)
             print(x[i])
-            dirName = "testSeparateData/" + x[i]
+            dirName = "trainSeparateData/" + x[i]
             if not os.path.exists(dirName):
                 os.mkdir(dirName)
             sound.export(dirName + "/" + str(num) + ".wav", format="wav")
