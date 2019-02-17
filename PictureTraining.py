@@ -72,8 +72,8 @@ def BuildCNN(ipshape=(512, 512, 3)):
     # layer10 = layers.Activation('relu')(layer9)
     layer10 = leaky_relu(layer9)
 
-    #ここに追記入れ替え、しかも0.8にした(やっぱ0.5、いや0.8)
-    layer11 = layers.Dropout(0.8)(layer10)
+    #ここに追記入れ替え、しかも0.8にした(やっぱ0.5)
+    layer11 = layers.Dropout(0.5)(layer10)
     layer12 = layers.MaxPooling2D(pool_size=(2, 2))(layer11)
     # model.add(Dropout(0.5))
 
@@ -105,7 +105,7 @@ def BuildCNN(ipshape=(512, 512, 3)):
     model.summary()
     return model
 
-def Learning(num, tsnum=30, nb_epoch=1500, batch_size=256, learn_schedule=0.9):
+def Learning(num, tsnum=30, nb_epoch=100, batch_size=64, learn_schedule=0.9):
     load_array = np.load(str(num) + '回目/TrainData.npz')
     X = load_array['x']
     Y = load_array['y']
