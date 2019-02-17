@@ -7,8 +7,8 @@ from pydub.silence import split_on_silence
 import pandas as pd
 import gc
 
-directoryName = "test/"
-meta_data = pd.read_table("sample_submit.tsv")
+directoryName = "DownSamplingTrain/"
+meta_data = pd.read_table("class_train_30.tsv")
 x = list(meta_data.loc[:, "fileName"])
 # x = x[:30]
 # x = ["3042b3c81d6d4ea0165f3ac6c5387272", "3a5c89b172235ee5c45bcb9b5a134971"]

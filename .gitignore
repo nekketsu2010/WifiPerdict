@@ -10,4 +10,5 @@ testSeparateData/
 trainAfter/
 testAfter/
 DownSampling*/
+Normalize*/
 __pycache__/
