@@ -51,6 +51,8 @@ def main(num=0, train=True):
     hop_length = 1024  # n_fftとってきてhop_lenghtだけずらしてn_fftだけポイントを取ってくる
     for image_num in range(len(imageFolders)):
         imageFolder = imageFolders[image_num]
+        if image_num < 2:
+            continue
         for i in range(len(x)):
             if not os.path.exists(audioFolder + "/" + x[i] + ".wav"):
                 print("こいつない")
@@ -79,8 +81,8 @@ def main(num=0, train=True):
             #ここからメルスペクトル変換処理
             stft = np.abs(librosa.stft(_x, n_fft=n_fft, hop_length=hop_length)) ** 2
             log_stft = librosa.power_to_db(stft)
-            mfccs = librosa.feature.mfcc(S=log_stft, sr=8000)
-            librosa.display.specshow(mfccs, sr=8000)
+            # mfccs = librosa.feature.mfcc(S=log_stft, sr=8000)
+            librosa.display.specshow(log_stft, sr=8000)
             plt.savefig(str(num) + "回目/" + imageFolder + "/" + x[i] + ".png", facecolor="azure", bbox_inches='tight', pad_inches=0)
             # plt.show()
             plt.close()

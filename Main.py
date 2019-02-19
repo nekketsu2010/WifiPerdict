@@ -2,8 +2,8 @@ import sys
 import os
 import WavToImage
 import PictureToNumpy
-# import PictureTraining
-# import NewPictureTraining
+import PictureTraining
+import NewPictureTraining
 
 number = sys.argv[1]
 #一通りフォルダ作成
