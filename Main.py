@@ -3,6 +3,7 @@ import os
 import WavToImage
 import PictureToNumpy
 import PictureTraining
+import NewPictureTraining
 
 number = sys.argv[1]
 #一通りフォルダ作成
@@ -25,3 +26,4 @@ if not os.path.exists(str(top) + "/Model"):
 # PictureToNumpy.main(number, train=True)
 # PictureToNumpy.main(number, train=False)
 # PictureTraining.main(number)
+NewPictureTraining.main(number)
