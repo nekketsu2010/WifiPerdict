@@ -22,8 +22,8 @@ if not os.path.exists(str(top) + "/Model"):
     os.mkdir(str(top) + "/Model")
 
 WavToImage.main(number, train=True)
-WavToImage.main(number, train=False)
-PictureToNumpy.main(number, train=True)
-PictureToNumpy.main(number, train=False)
+# WavToImage.main(number, train=False)
+# PictureToNumpy.main(number, train=True)
+# PictureToNumpy.main(number, train=False)
 # PictureTraining.main(number)
 # NewPictureTraining.main(number)
