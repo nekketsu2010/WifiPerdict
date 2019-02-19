@@ -17,7 +17,6 @@ def PreProcess(dirname, train):
         tsvname = 'class_train.tsv'
         imageFolders = ['Image', 'Image_wn', 'Image_ss', 'Image_st', 'Image_com']
 
-    arrlist = []
     meta_data = pd.read_table(tsvname)
     # gender_labels, uniques = pd.factorize(meta_data['gender'])
     # generation_labels, uniques = pd.factorize(meta_data['generation'])
@@ -31,10 +30,10 @@ def PreProcess(dirname, train):
     # y_generation = list(meta_data.loc[:, 'generation'])
     # np_genders = np.zeros(len(y_gender))
     # np_generations = np.zeros(len(y_generation))
-    np_targets = np.zeros(len(y) * len(imageFolders))
-    nplist = np.zeros()
     for image_num in range(len(imageFolders)):
         imageFolder = imageFolders[image_num]
+        arrlist = []
+        np_targets = np.zeros(len(y))
         for i in range(len(y)):
             if not os.path.exists(str(dirname) + "\\" + imageFolder + "\\" + x[i] + ".png"):
                 continue
@@ -44,18 +43,18 @@ def PreProcess(dirname, train):
             #追記
             array_list = array.tolist()
             arrlist.append(array_list)  # numpy型データをリストに追加
-            np_targets[i + (len(y) * image_num)] = y[i]
+            np_targets[i] = y[i]
             # np_genders[i] = y_gender[i]
             # np_generations[i] = y_generation[i]
             print("%d個のデータを処理しました" % i)
-        nplist = np.asarray(arrlist)
         print(">> " + dirname + "から" + str(i) + "個ファイル読み込み成功")
-    if train:
-        np.savez(str(dirname) + "\\TrainData", x=nplist, y=np_targets)
-        # np.savez(str(dirname) + "\\TrainData", x=nplist, y_gender=np_genders, y_generation=np_generations)
-    else:
-        np.savez(str(dirname) + "\\TestData", x=nplist, y=np_targets)
-        # np.savez(str(dirname) + "\\TestData", x=nplist, y_gender=np_genders, y_generation=np_generations)
+        nplist = np.asarray(arrlist)
+        if train:
+            np.savez(str(dirname) + "\\TrainData_" + imageFolder, x=nplist, y=np_targets)
+            # np.savez(str(dirname) + "\\TrainData", x=nplist, y_gender=np_genders, y_generation=np_generations)
+        else:
+            np.savez(str(dirname) + "\\TestData", x=nplist, y=np_targets)
+            # np.savez(str(dirname) + "\\TestData", x=nplist, y_gender=np_genders, y_generation=np_generations)
 
 def main(num=0, train=True):
     PreProcess(str(num) + "回目", train)
