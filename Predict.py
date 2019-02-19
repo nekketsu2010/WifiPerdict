@@ -39,9 +39,9 @@ ClassNames = ['MA_CH', 'FE_AD', 'MA_AD', 'FE_EL', 'FE_CH', 'MA_EL']
 # generationNames = ['CH', 'AD', 'EL']
 
 
-directory = "20回目\\"
+directory = "21回目\\"
 
-model = load_model(str(directory) + "Model\\model.ep291_val_loss0.28.hdf5", custom_objects={'f1':f1})
+model = load_model(str(directory) + "Model\\model.ep13_val_loss1.75.hdf5", custom_objects={'f1':f1})
 
 load_array = np.load(str(directory) + 'TestData.npz')
 fileNames = np.load("testFileName.npy")

@@ -22,6 +22,6 @@ if not os.path.exists(str(top) + "/Model"):
 
 WavToImage.main(number, train=True)
 # WavToImage.main(number, train=False)
-PictureToNumpy.main(number, train=True)
+# PictureToNumpy.main(number, train=True)
 # PictureToNumpy.main(number, train=False)
 # PictureTraining.main(number)
