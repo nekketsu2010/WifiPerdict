@@ -2,7 +2,7 @@
 
 import numpy as np
 
-num = 22
+num = 23
 splitN = 6
 folderName = str(num) + "回目"
 numpyNames = ['TrainData_wn.npz', 'TrainData_ss.npz', 'TrainData_st.npz', 'TrainData_com.npz']

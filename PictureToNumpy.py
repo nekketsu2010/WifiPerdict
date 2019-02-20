@@ -31,6 +31,8 @@ def PreProcess(dirname, train):
     # np_genders = np.zeros(len(y_gender))
     # np_generations = np.zeros(len(y_generation))
     for image_num in range(len(imageFolders)):
+        if image_num != 1:
+            continue
         imageFolder = imageFolders[image_num]
         arrlist = []
         np_targets = np.zeros(len(y))
