@@ -107,7 +107,10 @@ def BuildCNN(ipshape=(512, 512, 3)):
     return model
 
 def Learning(num, tsnum=30, nb_epoch=100, batch_size=64, learn_schedule=0.9):
-    NpNames = ['TrainData0.npz', 'TrainData1.npz', 'TrainData2.npz', 'TrainData3.npz', 'TrainData4.npz', 'TrainData5.npz']
+    path = str(num) + '回目/TrainData'
+    files = os.listdir(path)
+    NpNames = [f for f in files if os.path.isfile(os.path.join(path, f))]
+
     # 訓練
     load_array = np.load(str(num) + '回目/' + str(NpNames[0]))
     X = load_array['x']

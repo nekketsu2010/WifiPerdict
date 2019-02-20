@@ -51,7 +51,7 @@ def main(num=0, train=True):
     hop_length = 1024  # n_fftとってきてhop_lenghtだけずらしてn_fftだけポイントを取ってくる
     for image_num in range(len(imageFolders)):
         imageFolder = imageFolders[image_num]
-        if image_num < 2:
+        if image_num < 4:
             continue
         for i in range(len(x)):
             if not os.path.exists(audioFolder + "/" + x[i] + ".wav"):
